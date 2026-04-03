@@ -1,0 +1,25 @@
+{
+  "name": "playwright-pom-framework",
+  "version": "1.0.0",
+  "description": "Playwright Page Object Model framework for practicesoftwaretesting.com",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "allure:generate": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report",
+    "allure:serve": "allure serve allure-results",
+    "dashboard": "node scripts/generate-dashboard.js",
+    "full-run": "npm test && npm run allure:generate && npm run dashboard"
+  },
+  "dependencies": {
+    "allure-playwright": "^3.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "@types/node": "^20.0.0",
+    "allure-commandline": "^2.29.0",
+    "typescript": "^5.4.0"
+  }
+}
