@@ -1,20 +1,35 @@
-import { test, expect } from '../fixtures/testFixtures';
+import { test, expect } from '@playwright/test';
+import { HomePage } from '../pages/HomePage';
+import { CartPage } from '../pages/CartPage';
 
-test.describe('Smoke Test', () => {
-  test('1. Open the website', async ({ homePage }) => {
-    await homePage.goto();
-    await expect(homePage.page).toHaveURL(/practicesoftwaretesting\.com/);
-    await expect(homePage.page).toHaveTitle(/.*Practice Software Testing.*/i);
+test.describe('Amazon Smoke Tests', () => {
+  test('1. Open the website', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+    await expect(page).toHaveURL(/amazon\.com/);
+    await expect(page).toHaveTitle(/Amazon/i);
   });
 
-  test('2. Assert all elements', async ({ homePage }) => {
+  test('2. Assert permanent elements on home page', async ({ page }) => {
+    const homePage = new HomePage(page);
     await homePage.goto();
     await homePage.assertAllElements();
   });
 
-  test('3. Exit the site', async ({ homePage }) => {
+  test('3. Navigate to cart and assert checkout button', async ({ page }) => {
+    const homePage = new HomePage(page);
+    const cartPage = new CartPage(page);
+
+    // Search and add first result to cart
     await homePage.goto();
-    await homePage.page.goto('about:blank');
-    await expect(homePage.page).toHaveURL('about:blank');
+    await homePage.searchFor('notebook');
+    await page.locator('[data-component-type="s-search-result"] h2 a').first().click();
+    await page.waitForLoadState('domcontentloaded');
+    await page.locator('#add-to-cart-button').click();
+    await page.waitForLoadState('domcontentloaded');
+
+    // Navigate to cart and assert checkout button
+    await cartPage.goto();
+    await cartPage.assertCheckoutButton();
   });
 });
