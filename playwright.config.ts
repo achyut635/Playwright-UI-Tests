@@ -39,7 +39,7 @@ export default defineConfig({
   ],
 
   use: {
-    baseURL: 'https://practicesoftwaretesting.com',
+    baseURL: 'https://www.amazon.com',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'on-first-retry',
