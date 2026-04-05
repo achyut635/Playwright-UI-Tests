@@ -26,7 +26,7 @@ export class SearchResultsPage extends BasePage {
   }
 
   async searchFor(query: string) {
-    await this.search(query);
+    await this.page.goto(`/search?q=${query}`);
     await this.waitForPageLoad();
   }
 
